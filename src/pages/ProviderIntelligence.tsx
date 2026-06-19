@@ -43,7 +43,7 @@ export function ProviderIntelligence() {
       <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[1.5fr_1fr]">
         {/* Provider list */}
         <Panel padded={false}>
-          <div className="p-5 pb-3">
+          <div className="px-5 pt-5">
             <SectionHead eyebrow="Accredited network" title="Provider scorecards" icon={ShieldCheck} />
           </div>
           <div className="overflow-x-auto">

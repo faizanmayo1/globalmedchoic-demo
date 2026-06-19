@@ -68,9 +68,9 @@ export function GlobalCareMatch() {
         </Pill>
       </PageIntro>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1.45fr]">
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[1fr_1.45fr]">
         {/* Intake */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 lg:sticky lg:top-[108px]">
           <Panel accent="teal">
             <SectionHead eyebrow="Patient case" title="Intake" icon={Stethoscope} />
             <dl className="space-y-2.5 text-[13px]">
@@ -171,17 +171,20 @@ export function GlobalCareMatch() {
                     <p className="mt-1 font-display text-[26px] font-semibold tabular text-teal">{formatUSD(gmcTotal)}</p>
                   </div>
                 </div>
-                <div className="mt-4 space-y-1.5">
+                <div className="mt-4 space-y-2">
                   {costBreakdown.map((l) => {
-                    const max = Math.max(...costBreakdown.map((x) => x.usUSD || x.gmcUSD))
+                    const max = Math.max(...costBreakdown.map((x) => Math.max(x.usUSD, x.gmcUSD)))
                     return (
-                      <div key={l.line} className="grid grid-cols-[140px_1fr_auto] items-center gap-2 text-[11.5px]">
+                      <div key={l.line} className="grid grid-cols-[132px_1fr_auto] items-center gap-3 text-[11.5px]">
                         <span className="truncate text-ink-muted">{l.line}</span>
-                        <div className="flex items-center gap-1.5">
-                          <div className="h-2 rounded-full bg-signal-risk/30" style={{ width: `${(l.usUSD / max) * 50}%` }} />
-                          <div className="h-2 rounded-full bg-teal" style={{ width: `${(l.gmcUSD / max) * 50}%` }} />
+                        <div className="relative h-1.5 overflow-hidden rounded-full bg-canvas-subtle">
+                          <div className="absolute inset-y-0 left-0 rounded-full bg-signal-risk/25" style={{ width: `${(l.usUSD / max) * 100}%` }} />
+                          <div className="absolute inset-y-0 left-0 rounded-full bg-teal" style={{ width: `${(l.gmcUSD / max) * 100}%` }} />
                         </div>
-                        <span className="text-right font-mono tabular text-ink">{formatUSD(l.gmcUSD)}</span>
+                        <span className="flex items-center justify-end gap-2">
+                          {l.usUSD > 0 && <span className="font-mono text-ink-faint line-through">{formatUSD(l.usUSD)}</span>}
+                          <span className="w-14 text-right font-mono font-medium tabular text-teal">{formatUSD(l.gmcUSD)}</span>
+                        </span>
                       </div>
                     )
                   })}

@@ -32,11 +32,18 @@ import {
 } from '@/data/metrics'
 import { heroCase, matchedProvider } from '@/data/case'
 import { networkStats } from '@/data/network'
-import { formatPercent } from '@/utils/format'
+import { formatNumber, formatPercent, formatUSDCompact } from '@/utils/format'
 import { toneSoft } from '@/utils/tone'
 
 const KPI_ICONS = [TrendingDown, Banknote, Users, Activity]
 const KPI_ACCENT = ['teal', 'gold', 'teal', 'gold'] as const
+// Raw targets + formatters so the hero KPIs count up on load (parallel to commandKpis).
+const KPI_NUM: Array<{ countTo: number; format: (n: number) => string }> = [
+  { countTo: 0.41, format: formatPercent },
+  { countTo: 86_400_000, format: formatUSDCompact },
+  { countTo: 1284, format: formatNumber },
+  { countTo: 54_200_000, format: formatUSDCompact },
+]
 
 export function CommandCenter() {
   return (
@@ -61,7 +68,8 @@ export function CommandCenter() {
           <StatCard
             key={k.label}
             label={k.label}
-            value={k.value}
+            countTo={KPI_NUM[i].countTo}
+            format={KPI_NUM[i].format}
             delta={k.delta}
             deltaTone={k.deltaTone}
             sub={k.sub}
@@ -74,7 +82,7 @@ export function CommandCenter() {
       {/* Map + right column */}
       <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[1.55fr_1fr]">
         <Panel accent="teal" padded={false} className="overflow-hidden">
-          <div className="flex items-start justify-between gap-4 p-5 pb-3">
+          <div className="flex items-start justify-between gap-4 px-5 pt-5">
             <SectionHead
               eyebrow="Accredited network"
               title="Global care routing"
@@ -185,7 +193,7 @@ export function CommandCenter() {
 
       {/* Recent cases */}
       <Panel className="mt-4" padded={false}>
-        <div className="flex items-center justify-between p-5 pb-3">
+        <div className="flex items-start justify-between px-5 pt-5">
           <SectionHead eyebrow="In care journey" title="Active patient cases" icon={Users} />
           <Link to="/match" className="inline-flex items-center gap-1 text-[12.5px] font-medium text-teal hover:text-teal-deep">
             Open matcher <ArrowUpRight className="h-3.5 w-3.5" />

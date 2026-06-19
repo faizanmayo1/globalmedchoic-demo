@@ -49,6 +49,9 @@ export function WorldMap({
   return (
     <div className={cn('map-grid relative overflow-hidden rounded-2xl border border-hairline bg-teal-900/[0.015]', className)}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_30%_-10%,rgba(14,91,82,0.10),transparent_60%)]" />
+      {/* premium depth: soft inner vignette + faint gold horizon */}
+      <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_90px_rgba(10,49,44,0.12)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-[radial-gradient(120%_100%_at_70%_120%,rgba(194,162,76,0.10),transparent_60%)]" />
       <svg viewBox={`0 0 ${W} ${H}`} className="relative h-full w-full" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id="routeHot" x1="0" y1="0" x2="1" y2="0">

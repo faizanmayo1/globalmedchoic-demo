@@ -4,6 +4,14 @@ import { Sparkles, type LucideIcon } from 'lucide-react'
 import type { Provenance, Tone, Verdict } from '@/types'
 import { toneSoft } from '@/utils/tone'
 import { cn } from '@/utils/cn'
+import { useCountUp } from '@/utils/useCountUp'
+
+/* ── Animated numeric value (count-up) ─────────────────────────────── */
+
+function AnimatedValue({ target, format }: { target: number; format: (n: number) => string }) {
+  const v = useCountUp(target, 1100)
+  return <>{format(v)}</>
+}
 
 /* ── Panel ─────────────────────────────────────────────────────────── */
 
@@ -89,9 +97,14 @@ export function PageIntro({
   return (
     <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
       <div className="max-w-2xl">
-        <p className="eyebrow">{eyebrow}</p>
-        <h1 className="mt-1.5 font-display text-[26px] font-semibold leading-[1.1] text-ink lg:text-[32px]">{title}</h1>
-        {sub && <p className="mt-2.5 text-sm leading-relaxed text-ink-muted">{sub}</p>}
+        <p className="eyebrow flex items-center gap-2">
+          <span className="h-px w-6 bg-gradient-to-r from-gold to-gold/0" aria-hidden />
+          {eyebrow}
+        </p>
+        <h1 className="mt-2 text-balance font-display text-[27px] font-semibold leading-[1.04] tracking-tight-bank text-ink lg:text-[34px]">
+          {title}
+        </h1>
+        {sub && <p className="mt-3 max-w-xl text-[14.5px] leading-relaxed text-ink-muted">{sub}</p>}
       </div>
       {children && <div className="flex shrink-0 items-center gap-2">{children}</div>}
     </div>
@@ -147,6 +160,8 @@ export function AINote({ children, title }: { children: ReactNode; title?: strin
 export function StatCard({
   label,
   value,
+  countTo,
+  format,
   delta,
   deltaTone = 'neutral',
   sub,
@@ -154,7 +169,10 @@ export function StatCard({
   accent = 'teal',
 }: {
   label: string
-  value: ReactNode
+  value?: ReactNode
+  /** When provided (with `format`), the value animates 0 → countTo on mount. */
+  countTo?: number
+  format?: (n: number) => string
   delta?: string
   deltaTone?: Tone
   sub?: string
@@ -167,8 +185,15 @@ export function StatCard({
       : accent === 'gold'
         ? 'bg-signal-gold-soft text-gold-ink group-hover:bg-gold group-hover:text-white'
         : 'bg-teal-soft text-teal group-hover:bg-teal group-hover:text-white'
+  const accentRule = accent === 'ai' ? 'before:bg-ai/70' : accent === 'gold' ? 'before:bg-gold/80' : 'before:bg-teal/70'
   return (
-    <div className="surface-card edge-top card-lift group rounded-2xl border border-hairline p-4 shadow-card-md hover:border-teal/20 hover:shadow-card-lg">
+    <div
+      className={cn(
+        'surface-card edge-top card-lift group relative overflow-hidden rounded-2xl border border-hairline p-4 shadow-card-md transition-shadow hover:border-teal/20 hover:shadow-card-lg',
+        'before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:origin-left before:scale-x-0 before:rounded-full before:opacity-0 before:transition-all before:duration-300 group-hover:before:scale-x-100 group-hover:before:opacity-100',
+        accentRule,
+      )}
+    >
       <div className="flex items-center justify-between">
         <p className="text-[12px] font-medium text-ink-muted">{label}</p>
         {Icon && (
@@ -177,7 +202,9 @@ export function StatCard({
           </span>
         )}
       </div>
-      <p className="mt-2.5 font-display text-[28px] font-semibold leading-none tracking-tight-bank text-ink tabular">{value}</p>
+      <p className="mt-2.5 font-display text-[28px] font-semibold leading-none tracking-tight-bank text-ink tabular">
+        {countTo != null && format ? <AnimatedValue target={countTo} format={format} /> : value}
+      </p>
       <div className="mt-2.5 flex items-center gap-2">
         {delta && <span className={cn('rounded-full px-1.5 py-0.5 text-[11.5px] font-medium tabular', toneSoft[deltaTone])}>{delta}</span>}
         {sub && <span className="truncate text-[11.5px] text-ink-subtle">{sub}</span>}

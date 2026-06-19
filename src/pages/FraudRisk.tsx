@@ -45,7 +45,7 @@ export function FraudRisk() {
       <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[1.5fr_1fr]">
         {/* Signals */}
         <Panel padded={false}>
-          <div className="flex items-center justify-between p-5 pb-3">
+          <div className="flex items-start justify-between px-5 pt-5">
             <SectionHead eyebrow="Live" title="Risk signals" icon={ShieldAlert} ai />
             <span className="font-mono text-[11.5px] text-ink-subtle">{riskSignals.length} active</span>
           </div>
