@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Global MedChoices — warm concierge theme (shadcn semantic tokens, HSL channels) */
+    --background: 38 43% 97%;         /* canvas #FBF8F3 */
+    --foreground: 156 22% 11%;        /* ink #16241F */
+
+    --card: 0 0% 100%;
+    --card-foreground: 156 22% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 156 22% 11%;
+
+    --primary: 171 73% 21%;           /* teal #0E5B52 */
+    --primary-foreground: 38 43% 98%;
+
+    --secondary: 40 33% 92%;
+    --secondary-foreground: 156 22% 11%;
+
+    --muted: 40 30% 93%;
+    --muted-foreground: 162 10% 37%;  /* ink muted #566962 */
+
+    --accent: 246 53% 65%;            /* aurora iris #7C72D6 — AI accent */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 5 53% 49%;         /* risk #C0453B */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 39% 86%;             /* hairline #E8E0D2 */
+    --input: 40 39% 86%;
+    --ring: 171 73% 21%;              /* focus = teal */
+
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply text-ink font-sans antialiased;
+    /* Premium concierge atmosphere — faint teal/gold washes over warm ivory */
+    background-color: #FBF8F3;
+    background-image:
+      radial-gradient(1100px 580px at 100% -10%, rgba(194, 162, 76, 0.10), transparent 58%),
+      radial-gradient(1000px 540px at -8% -4%, rgba(14, 91, 82, 0.09), transparent 56%),
+      linear-gradient(180deg, #FCF9F4 0%, #F7F2E9 100%);
+    background-attachment: fixed;
+    font-feature-settings: 'ss01', 'cv11';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Fine film of grain for tactile, premium depth */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+
+  .tabular,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-ink tracking-tight-bank;
+    font-weight: 600;
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    background-color: hsl(171 73% 21% / 0.14);
+    color: hsl(156 22% 11%);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(40 18% 76%);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(40 14% 64%);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+}
+
+@layer components {
+  /* Premium gradient CTAs with inner highlight + lift */
+  .cta-teal {
+    background-image: linear-gradient(180deg, #137567 0%, #0E5B52 52%, #0B463F 100%);
+    box-shadow: 0 8px 20px -8px rgba(14, 91, 82, 0.55), 0 1px 2px rgba(22, 36, 31, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    transition: filter 0.16s ease, transform 0.12s ease, box-shadow 0.16s ease;
+  }
+  .cta-teal:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 12px 26px -8px rgba(14, 91, 82, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  }
+  .cta-teal:active {
+    transform: translateY(1px);
+  }
+
+  .cta-ai {
+    background-image: linear-gradient(180deg, #8E84DA 0%, #7C72D6 52%, #5A4FB0 100%);
+    box-shadow: 0 8px 20px -8px rgba(124, 114, 214, 0.55), 0 1px 2px rgba(22, 36, 31, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    transition: filter 0.16s ease, transform 0.12s ease, box-shadow 0.16s ease;
+  }
+  .cta-ai:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 12px 26px -8px rgba(124, 114, 214, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  .cta-ai:active {
+    transform: translateY(1px);
+  }
+
+  .cta-gold {
+    background-image: linear-gradient(180deg, #D2B65F 0%, #C2A24C 52%, #A8862F 100%);
+    box-shadow: 0 8px 20px -8px rgba(168, 134, 47, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  }
+
+  /* Premium card surface — barely-there vertical gradient + crisp top edge */
+  .surface-card {
+    background-image: linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 100%);
+  }
+}
+
+@layer utilities {
+  /* Eyebrow / micro-label */
+  .eyebrow {
+    @apply font-mono text-[10.5px] font-medium uppercase tracking-wide-eyebrow text-ink-subtle;
+  }
+
+  /* Serif accent for premium numerals / hero phrases */
+  .text-serif {
+    @apply font-display;
+    font-optical-sizing: auto;
+  }
+
+  /* Gradient ink for hero numerals / accents */
+  .text-gradient-teal {
+    background-image: linear-gradient(135deg, #0E5B52 0%, #0B463F 55%, #C2A24C 135%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-gold {
+    background-image: linear-gradient(135deg, #A8862F 0%, #C2A24C 50%, #DCBE78 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Moving sheen for AI rules / badges */
+  .ai-sheen {
+    background-image: linear-gradient(110deg, #7C72D6 0%, #9C93E6 45%, #7C72D6 90%);
+    background-size: 220% 100%;
+    animation: shimmer 3.2s linear infinite;
+  }
+
+  /* Top inner highlight for premium panels */
+  .edge-top {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+
+  /* Hairline divider — premium thin */
+  .divider-hairline {
+    background-image: linear-gradient(to right, transparent, hsl(40 26% 80%), transparent);
+    height: 1px;
+  }
+
+  /* Teal rule — structural signature hairline atop panels */
+  .teal-rule {
+    background-image: linear-gradient(to right, #0E5B52, #3F9486 55%, transparent);
+    height: 2px;
+  }
+
+  /* Gold rule — premium hairline */
+  .gold-rule {
+    background-image: linear-gradient(to right, #C2A24C, #DCBE78 55%, transparent);
+    height: 2px;
+  }
+
+  /* AI rule — iris signature hairline atop Atlas surfaces (reserved) */
+  .ai-rule {
+    background-image: linear-gradient(to right, #7C72D6, #9C93E6 55%, transparent);
+    height: 2px;
+  }
+
+  /* Iris wash behind Atlas reasoning / generation while "thinking" */
+  .ai-wash {
+    background:
+      radial-gradient(120% 80% at 10% 0%, hsl(246 53% 65% / 0.12), transparent 60%),
+      radial-gradient(120% 80% at 90% 8%, hsl(171 73% 21% / 0.06), transparent 60%);
+  }
+
+  /* Subtle dotted-meridian backdrop for map / globe surfaces */
+  .map-grid {
+    background-image:
+      radial-gradient(rgba(14, 91, 82, 0.12) 1px, transparent 1.4px);
+    background-size: 22px 22px;
+  }
+
+  /* Card hover lift */
+  .card-lift {
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Staggered reveal for grids */
+  .reveal > * {
+    opacity: 0;
+    animation: fade-in-up 0.5s ease-out both;
+  }
+  .reveal > *:nth-child(1) { animation-delay: 0.02s; }
+  .reveal > *:nth-child(2) { animation-delay: 0.06s; }
+  .reveal > *:nth-child(3) { animation-delay: 0.10s; }
+  .reveal > *:nth-child(4) { animation-delay: 0.14s; }
+  .reveal > *:nth-child(5) { animation-delay: 0.18s; }
+  .reveal > *:nth-child(6) { animation-delay: 0.22s; }
+}
+
+/* Reduced motion: entrance animations resolve instantly to their visible
+   resting state — never leave content hidden behind an unplayed animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal > *,
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-stream-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
